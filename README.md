@@ -43,3 +43,21 @@ Mina is a layer-1 blockchain with a 22KB blockchain. The world's lightest blockc
 Here's what MINA is all about:
 
 ![min](assets/images/mina.jpeg)
+
+        Mina is zero-knowledge proofs all the way down.
+
+        :point_right: ZK blockchain that stays a constant size
+        :point_right: ZK proving system that is composable
+        :point_right: ZK smart contracts for private applications
+
+The idea for this project is to create a way to perform on-chain verification by leveraging auxiliary proofs generated on the MINA protocol. The project will leverage the work done by Nil's foundation bridge and the currently being developed Lamdaclass MINA Bridge. These projects provide a route for Mina state proofs to be sent to an EVM chain.
+
+**WIP**: Full Overview of how the solution will be structured.
+
+## Target Audience
+
+1. Platforms like Galxe, where user authenticity is required
+2. DAOs
+3. Delegator Programs
+4. Mina Foundations
+5. Airdrops, for example, the sui airdrop and arbitrum airdrop.
