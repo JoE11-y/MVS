@@ -50,9 +50,15 @@ Here's what MINA is all about:
         :point_right: ZK proving system that is composable
         :point_right: ZK smart contracts for private applications
 
-The idea for this project is to create a way to perform on-chain verification by leveraging auxiliary proofs generated on the MINA protocol. The project will leverage the work done by Nil's foundation bridge and the currently being developed Lamdaclass MINA Bridge. These projects provide a route for Mina state proofs to be sent to an EVM chain.
+The idea behind this project, as it is a submission for the Mina Navigator 6-month program, is to explore ways or methods in which the Mina protocol can be used for authenticating the identity of users while still preserving user anonymity and privacy. The project will focus on two areas:
 
-**WIP**: Full Overview of how the solution will be structured.
+1. Social Verification: Verify user social identity using existing authentication layers like OAUTH, Authboss, and Kratos, then leverage the Mina system to generate proofs which can be verifiable by anyone on the blockchain without having the users' social information.
+
+        N/B Further development scope may require the development of a private auth layer with social platforms as these existing layers may have vulnerability.
+
+2. On-chain Verification: Perform on-chain verification by leveraging auxiliary proofs generated on the MINA protocol. The project will leverage the work done by Nil's foundation bridge and the currently being developed Lamdaclass MINA Bridge. These projects allow Mina state proofs to be sent to an EVM chain, allowing for chain interoperability.
+
+**WIP**: Full Overview of how solutions will be structured.
 
 ## Target Audience
 
@@ -61,3 +67,12 @@ The idea for this project is to create a way to perform on-chain verification by
 3. Delegator Programs
 4. Mina Foundations
 5. Airdrops, for example, the sui airdrop and arbitrum airdrop.
+
+## Example Scenario (Cross Chain Verification)
+
+    User has an account on a credit score checking site
+    [MINA] A zkApp on mina verifies your credit score > 700 and publishes proof on MINA zkApp
+    [MINA] credit score proof transaction gets confirmed.
+    [ETH] Auxiliary Proof of the MINA state is sent to ETH.
+    [ETH] MINA state proof is validated and confirmed
+    [ETH] A dApp on ETH can disburse a loan to the user by checking you meet the credit score requirements.
