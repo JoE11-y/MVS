@@ -68,7 +68,16 @@ The idea behind this project, as it is a submission for the Mina Navigator 6-mon
 4. Mina Foundations
 5. Airdrops, for example, the sui airdrop and arbitrum airdrop.
 
-## Example Scenario (Cross Chain Verification)
+## Example Scenario
+
+A (Social Verification)
+
+    User wants to verify identity
+    Authenticates Account information with auth layer
+    Generates proof on Mina
+    Platforms or other users can verify proof as means of social verification
+
+B (Cross Chain Verification)
 
     User has an account on a credit score checking site
     [MINA] A zkApp on mina verifies your credit score > 700 and publishes proof on MINA zkApp
