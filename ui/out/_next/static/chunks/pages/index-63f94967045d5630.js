@@ -7,7 +7,7 @@
     (window.__NEXT_P = window.__NEXT_P || []).push([
       "/",
       function () {
-        return __webpack_require__(4549);
+        return __webpack_require__(6859);
       }
     ]);
     if(false) {}
@@ -702,7 +702,7 @@ const _default = defaultLoader; //# sourceMappingURL=image-loader.js.map
 
 /***/ }),
 
-/***/ 4549:
+/***/ 6859:
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -903,7 +903,36 @@ function Logo() {
     });
 }
 
+;// CONCATENATED MODULE: ./node_modules/clsx/dist/clsx.mjs
+function r(e){var t,f,n="";if("string"==typeof e||"number"==typeof e)n+=e;else if("object"==typeof e)if(Array.isArray(e))for(t=0;t<e.length;t++)e[t]&&(f=r(e[t]))&&(n&&(n+=" "),n+=f);else for(t in e)e[t]&&(n&&(n+=" "),n+=t);return n}function clsx(){for(var e,t,f=0,n="";f<arguments.length;)(e=arguments[f++])&&(t=r(e))&&(n&&(n+=" "),n+=t);return n}/* harmony default export */ var dist_clsx = (clsx);
+;// CONCATENATED MODULE: ./src/components/Waitlist.tsx
+
+
+
+
+function WaitlistForm() {
+    return /*#__PURE__*/ (0,jsx_runtime.jsxs)("form", {
+        className: dist_clsx((Home_module_default()).formcard, "launchlist-form"),
+        action: "https://getlaunchlist.com/s/813Z0c",
+        method: "POST",
+        children: [
+            /*#__PURE__*/ (0,jsx_runtime.jsx)("input", {
+                name: "email",
+                type: "email",
+                placeholder: "Enter email",
+                className: (Home_module_default()).tagline
+            }),
+            /*#__PURE__*/ (0,jsx_runtime.jsx)("button", {
+                type: "submit",
+                className: (Home_module_default()).button,
+                children: "Join Waitlist"
+            })
+        ]
+    });
+}
+
 ;// CONCATENATED MODULE: ./src/pages/index.page.tsx
+
 
 
 
@@ -968,10 +997,7 @@ function Home() {
                                 ]
                             })
                         }),
-                        /*#__PURE__*/ (0,jsx_runtime.jsx)("button", {
-                            className: (Home_module_default()).button,
-                            children: "JOIN WAITLIST"
-                        })
+                        /*#__PURE__*/ (0,jsx_runtime.jsx)(WaitlistForm, {})
                     ]
                 })
             })
@@ -986,7 +1012,7 @@ function Home() {
 /***/ (function(module) {
 
 // extracted by mini-css-extract-plugin
-module.exports = {"main":"Home_main__2uIek","backgroundGradients":"Home_backgroundGradients__VUGb4","container":"Home_container__9OuOz","tagline":"Home_tagline__Jw01K","start":"Home_start__ELciH","code":"Home_code__BZK8z","flex":"Home_flex__CDpGW","card":"Home_card__HIlp_","title":"Home_title__YEn0u","center":"Home_center__Y_rV4","positionlogo":"Home_positionlogo__IoXjG","right":"Home_right__vpyWc","logo":"Home_logo__ZEOng","content":"Home_content__Qnbja","grid":"Home_grid__vo_ES","button":"Home_button__Mzpzz"};
+module.exports = {"main":"Home_main__2uIek","backgroundGradients":"Home_backgroundGradients__VUGb4","container":"Home_container__9OuOz","tagline":"Home_tagline__Jw01K","start":"Home_start__ELciH","code":"Home_code__BZK8z","flex":"Home_flex__CDpGW","formcard":"Home_formcard__mqw8B","card":"Home_card__HIlp_","title":"Home_title__YEn0u","center":"Home_center__Y_rV4","positionlogo":"Home_positionlogo__IoXjG","right":"Home_right__vpyWc","logo":"Home_logo__ZEOng","content":"Home_content__Qnbja","grid":"Home_grid__vo_ES","button":"Home_button__Mzpzz"};
 
 /***/ }),
 
