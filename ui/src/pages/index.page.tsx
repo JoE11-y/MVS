@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import GradientBG from "../components/GradientBG.js";
 import styles from "../styles/Home.module.css";
 import Logo from "../components/Logo.tsx";
+import WaitlistForm from "../components/Waitlist.tsx";
 
 export default function Home() {
   useEffect(() => {
@@ -43,11 +44,14 @@ export default function Home() {
                 measures to safeguard the security of web3 platforms using
                 Mina&apos;s zero-knowledge proofs down approach, to provide a
                 secure and scalable solution for private applications in the
-                web3 space. Join MVS and secure the future of web3.
+                web3 space.
+              </p>
+              <p className={styles.start}>
+                Join MVS and secure the future of web3.
               </p>
             </div>
           </div>
-          <button className={styles.button}>JOIN WAITLIST</button>
+          <WaitlistForm />
         </main>
       </GradientBG>
     </>
