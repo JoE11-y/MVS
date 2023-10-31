@@ -54,7 +54,7 @@ The idea behind this project, as it is a submission for the Mina Navigator 6-mon
 
 1. Social Verification: Verify user social identity using existing authentication layers like OAUTH, Authboss, and Kratos, then leverage the Mina system to generate proofs which can be verifiable by anyone on the blockchain without having the users' social information.
 
-        N/B Further development scope may require the development of a private auth layer with social platforms as these existing layers may have vulnerability.
+        N/B Further development scope will require the development of a private auth layer with social platforms as these existing layers may have vulnerability.
 
 2. On-chain Verification: Perform on-chain verification by leveraging auxiliary proofs generated on the MINA protocol. The project will leverage the work done by Nil's foundation bridge and the currently being developed Lamdaclass MINA Bridge. These projects allow Mina state proofs to be sent to an EVM chain, allowing for chain interoperability.
 
