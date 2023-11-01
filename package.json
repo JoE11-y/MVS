@@ -1,0 +1,66 @@
+{
+  "name": "mvs",
+  "version": "1.0.0",
+  "description": "An auth and verification zKapp for mina navigators",
+  "author": "JoE11-y",
+  "private": true,
+  "license": "Apache-2.0",
+  "scripts": {
+    "ui:dev": "yarn contract:build && yarn --cwd ui dev",
+    "ui:build": "yarn contract:build && yarn --cwd ui build",
+    "ui:start": "yarn contract:build && yarn --cwd ui start",
+    "ui:lint": "yarn --cwd ui lint",
+    "ui:ts-watch": "yarn --cwd ui tsc-watch",
+    "contract:build": "yarn --cwd contracts build",
+    "contract:buildw": "yarn --cwd contracts buildw",
+    "contract:coverage": "yarn --cwd contracts coverage",
+    "contract:test": "yarn --cwd contracts test",
+    "contract:testw": "yarn --cwd contracts testw",
+    "contract:lint": "yarn --cwd contracts lint"
+  },
+  "dependencies": {
+    "@types/node": "20.8.7",
+    "@types/react": "18.2.29",
+    "@types/react-dom": "18.2.14",
+    "autoprefixer": "10.4.16",
+    "clsx": "^2.0.0",
+    "coi-serviceworker": "^0.1.7",
+    "eslint": "8.51.0",
+    "eslint-config-next": "13.5.5",
+    "next": "13.5.5",
+    "next-auth": "^4.24.3",
+    "o1js": "0.13.*",
+    "postcss": "8.4.31",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "tailwindcss": "3.3.3",
+    "typescript": "5.2.2"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.16.4",
+    "@babel/preset-typescript": "^7.16.0",
+    "@types/jest": "^27.0.3",
+    "@typescript-eslint/eslint-plugin": "^5.5.0",
+    "@typescript-eslint/parser": "^5.5.0",
+    "eslint-plugin-o1js": "^0.4.0",
+    "jest": "^27.3.1",
+    "lint-staged": "^11.0.1",
+    "prettier": "^2.3.2",
+    "ts-jest": "^27.0.7"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JoE11-y/MVS.git"
+  },
+  "workspaces": [
+    "contracts",
+    "ui"
+  ],
+  "keywords": [
+    "mina-navigators",
+    "mina-zkapp",
+    "mina-zk-app",
+    "mina-dapp",
+    "zkapp"
+  ]
+}
