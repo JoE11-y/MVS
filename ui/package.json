@@ -8,8 +8,5 @@
     "start": "next start",
     "lint": "next lint",
     "ts-watch": "tsc --noEmit --incremental --watch"
-  },
-  "dependencies": {
-    "contracts": "*"
   }
 }
