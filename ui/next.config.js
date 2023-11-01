@@ -1,11 +1,12 @@
 /** @type {import('next').NextConfig} */
+
 const nextConfig = {
   reactStrictMode: false,
-
   webpack(config) {
     config.resolve.alias = {
       ...config.resolve.alias,
       o1js: require("path").resolve("../node_modules/o1js"),
+      contracts: require("path").resolve("../contracts/build/contracts/"),
     };
     config.experiments = { ...config.experiments, topLevelAwait: true };
     return config;

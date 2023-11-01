@@ -20,5 +20,5 @@
         "require": [
             "tsconfig-paths/register"
         ]
-    },
+    }
 }

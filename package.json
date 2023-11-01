@@ -6,17 +6,17 @@
   "private": true,
   "license": "Apache-2.0",
   "scripts": {
-    "dev": "yarn contract:build && yarn --cwd ui dev",
-    "build": "yarn contract:build && yarn --cwd ui build",
-    "start": "yarn contract:build && yarn --cwd ui start",
-    "ui:lint": "yarn --cwd ui lint",
+    "dev": "npm run contract:build && npm run dev -w ui",
+    "build": "npm run contract:build && npm run build -w ui",
+    "start": "npm run contract:build && npm run start -w ui",
+    "ui:lint": "npm run lint -w ui",
     "ui:ts-watch": "yarn --cwd ui tsc-watch",
-    "contract:build": "yarn --cwd contracts build",
-    "contract:buildw": "yarn --cwd contracts buildw",
-    "contract:coverage": "yarn --cwd contracts coverage",
-    "contract:test": "yarn --cwd contracts test",
-    "contract:testw": "yarn --cwd contracts testw",
-    "contract:lint": "yarn --cwd contracts lint"
+    "contract:build": "npm run build -w contracts",
+    "contract:buildw": "npm run buildw -w contracts",
+    "contract:coverage": "npm run coverage -w contracts",
+    "contract:test": "npm run test -w contracts",
+    "contract:testw": "npm run testw -w contracts",
+    "contract:lint": "npm run lint -w contracts"
   },
   "dependencies": {
     "@types/node": "20.8.7",
@@ -30,6 +30,7 @@
     "eslint-config-next": "13.5.5",
     "next": "13.5.5",
     "next-auth": "^4.24.3",
+    "next-transpile-modules": "10.0.1",
     "o1js": "0.13.*",
     "postcss": "8.4.31",
     "react": "18.2.0",
@@ -44,10 +45,10 @@
     "@typescript-eslint/eslint-plugin": "^5.5.0",
     "@typescript-eslint/parser": "^5.5.0",
     "eslint-plugin-o1js": "^0.4.0",
-    "jest": "^27.3.1",
+    "jest": "29.7.0",
     "lint-staged": "^11.0.1",
     "prettier": "^2.3.2",
-    "ts-jest": "^27.0.7"
+    "ts-jest":"29.1.1"
   },
   "repository": {
     "type": "git",

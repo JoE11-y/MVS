@@ -2,12 +2,12 @@ import { useEffect } from "react";
 import styles from "../styles/Demo.module.css";
 import Authenticate from "../components/Authenticate";
 import Verify from "../components/Verify";
-import { Add } from "contracts";
 
 export default function Demo() {
   useEffect(() => {
     (async () => {
       const { Mina, PublicKey } = (await import("o1js"));
+      const { Add } = await import('../../../contracts/build/contracts/src');
       // // Update this to use the address (public key) for your zkApp account.
       // // To try it out, you can try this address for an example "Add" smart contract that we've deployed to
       // // Berkeley Testnet .
