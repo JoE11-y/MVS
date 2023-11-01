@@ -6,9 +6,9 @@
   "private": true,
   "license": "Apache-2.0",
   "scripts": {
-    "ui:dev": "yarn contract:build && yarn --cwd ui dev",
-    "ui:build": "yarn contract:build && yarn --cwd ui build",
-    "ui:start": "yarn contract:build && yarn --cwd ui start",
+    "dev": "yarn contract:build && yarn --cwd ui dev",
+    "build": "yarn contract:build && yarn --cwd ui build",
+    "start": "yarn contract:build && yarn --cwd ui start",
     "ui:lint": "yarn --cwd ui lint",
     "ui:ts-watch": "yarn --cwd ui tsc-watch",
     "contract:build": "yarn --cwd contracts build",
