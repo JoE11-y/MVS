@@ -7,6 +7,25 @@
   min-height: 100vh;
 }
 
+.flex {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  justify-items: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.avatar {
+  border-radius: 2rem;
+  float: left;
+  height: 3rem;
+  width: 3rem;
+  background-color: white;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
 .tagline {
   font-family: var(--font-monument-light);
   font-size: 0.875rem;
@@ -43,7 +62,7 @@
   background-color: rgb(255, 255, 255);
   border: 1px solid #2d2d2d;
   border-radius: 4px 1px;
-  width: 25rem;
+  width: 20rem;
   display: flex;
   flex-direction: column;
   align-items: center;
