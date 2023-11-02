@@ -2,8 +2,9 @@ import styles from "../styles/Demo.module.css";
 import style from "../styles/Home.module.css";
 import Image from "next/image";
 import Link from "next/link";
+import { getProviders } from "next-auth/react";
 
-export default function Authenticate() {
+export default function AuthenticateCard() {
   return (
     <div className={styles.card}>
       <h2>
@@ -20,7 +21,7 @@ export default function Authenticate() {
 
       <p className={styles.start}></p>
 
-      <Link href={"/api/auth/signin"}>
+      <Link href={"/demo/authenticate"}>
         <button className={style.button}>Start</button>
       </Link>
     </div>

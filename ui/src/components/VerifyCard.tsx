@@ -1,8 +1,9 @@
 import styles from "../styles/Demo.module.css";
 import style from "../styles/Home.module.css";
 import Image from "next/image";
+import Link from "next/link";
 
-export default function Verify() {
+export default function VerifyCard() {
   return (
     <div className={styles.card}>
       <h2>
@@ -13,7 +14,9 @@ export default function Verify() {
       </div>
 
       <p className={styles.start}></p>
-      <button className={style.button}>Start </button>
+      <Link href={"/demo/verify"}>
+        <button className={style.button}>Start</button>
+      </Link>
     </div>
   );
 }
