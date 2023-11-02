@@ -2,6 +2,9 @@
 
 const nextConfig = {
   reactStrictMode: false,
+  images: {
+    remotePatterns: [],
+  },
   webpack(config) {
     config.resolve.alias = {
       ...config.resolve.alias,
