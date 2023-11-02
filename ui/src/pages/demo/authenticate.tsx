@@ -5,6 +5,7 @@ import style from "../../styles/Home.module.css";
 import { getProviders, signIn } from "next-auth/react";
 
 export default function Authenticate({ providers }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+    console.log(providers)
     useEffect(() => {
         (async () => {
             const { Mina, PublicKey } = (await import("o1js"));
