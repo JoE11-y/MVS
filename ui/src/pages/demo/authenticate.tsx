@@ -36,7 +36,7 @@ export default function Authenticate({ providers }: InferGetServerSidePropsType<
                         providers &&
                         Object.values(providers).map((provider: any) => (
                             <div key={provider.name} style={{ marginBottom: "5px", padding: "5px" }}>
-                                <button className={style.button} onClick={() => signIn(provider.id)}>
+                                <button className={style.button} onClick={() => signIn(provider.id, { callbackUrl: "/demo/authenticate" })}>
                                     Continue with {provider.name}
                                 </button>
                             </div>
