@@ -1,6 +1,6 @@
 import { signOut, useSession } from "next-auth/react";
 import styles from "../styles/Demo.module.css";
-import style from "../styles/Home.module.css"
+import style from "../styles/Home.module.css";
 import Image from "next/image";
 
 export default function UserDashboard() {
@@ -27,6 +27,14 @@ export default function UserDashboard() {
                             alt="image"
                         />
                     )}
+                    <button onClick={() => signOut({ callbackUrl: "/demo/authenticate" })} className={styles.logout}>
+                        <Image
+                            src="/assets/log-out.svg"
+                            width={25}
+                            height={25}
+                            alt="log-out"
+                        />
+                    </button>
                     <div>
                         <small>Signed in as</small>
                         <br />
@@ -37,16 +45,6 @@ export default function UserDashboard() {
                     <button className={style.button}>
                         Generate Proof
                     </button>
-                    {/* <a
-                        href={`/api/auth/signout`}
-                        className={styles.button}
-                        onClick={(e) => {
-                            e.preventDefault()
-                            signOut()
-                        }}
-                    >
-                        Sign out
-                    </a> */}
                 </>
             )}
         </div>

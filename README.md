@@ -59,8 +59,9 @@ The idea behind this project, as it is a submission for the Mina Navigator 6-mon
     Supported Platforms (now)
 
         1. Github (Working)
-        2. Google (WIP)
-        3. LinkedIn (WIP)
+        2. Google (Only available to users who signed up for the waitlist)
+        3. LinkedIn (Working)
+        4. Twitter (Working)
 
 2. On-chain Verification: Perform on-chain verification by leveraging auxiliary proofs generated on the MINA protocol. The project will leverage the work done by Nil's foundation bridge and the currently being developed Lamdaclass MINA Bridge. These projects allow Mina state proofs to be sent to an EVM chain, allowing for chain interoperability.
 
