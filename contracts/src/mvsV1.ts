@@ -15,9 +15,9 @@ import { Schema } from 'zkdb';
 const merkleHeight = 20;
 
 // Extend Merkle witness at the same height as the Merkle Tree
-class MVSMerkleWitness extends MerkleWitness(merkleHeight) {}
+export class MVSMerkleWitness extends MerkleWitness(merkleHeight) {}
 
-interface UserSession {
+export interface UserSession {
   user?: {
     name?: string | null;
     email?: string | null;
@@ -26,7 +26,7 @@ interface UserSession {
   expires: string;
 }
 
-class UserData extends Schema({
+export class UserData extends Schema({
   userAddress: PublicKey,
   session: Object as unknown as UserSession,
 }) {

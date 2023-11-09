@@ -39,3 +39,6 @@ keys
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# storage cfg
+data
