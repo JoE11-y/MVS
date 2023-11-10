@@ -29,12 +29,11 @@ async function findUser(userPubKey: string) {
   }
   const userData = await userRecord.load(UserData);
   const userWitness = new MVSMerkleWitness(await userRecord.witness());
-  console.log(userData.json());
-  // const res = {
-  //   userData,
-  //   userWitness,
-  // };
-  // return res;
+  const res = {
+    userData,
+    userWitness,
+  };
+  return res;
 }
 
 async function addUser(userPubKey: string, session: any) {
@@ -43,17 +42,18 @@ async function addUser(userPubKey: string, session: any) {
   if (!userRecord.isEmpty()) {
     throw new Error("User already exists");
   }
-  await zkDB.add(
-    new UserData({
-      userAddress: PublicKey.fromBase58(userPubKey),
-      session: new UserSession({
-        name: CircuitString.fromString(session.name),
-        email: CircuitString.fromString(session.email),
-        image: CircuitString.fromString(session.image),
-      }),
-    })
-  );
-  return true;
+  const userData = new UserData({
+    userAddress: PublicKey.fromBase58(userPubKey),
+    session: new UserSession({
+      name: CircuitString.fromString(session.name),
+      email: CircuitString.fromString(session.email),
+      image: CircuitString.fromString(session.image),
+    }),
+  });
+  await zkDB.add(userData);
+  // retrieve userPubKey
+  const res = await findUser(userPubKey);
+  return res;
 }
 
 export async function getHandler(ctx: ParameterizedContext) {
@@ -78,7 +78,7 @@ export async function postHandler(ctx: ParameterizedContext) {
       ctx.throw(400, "Could not create User");
     }
     ctx.status = 200;
-    ctx.body = "User Created Successfully";
+    ctx.body = res;
   } catch (e) {
     ctx.throw(e as Error);
   }

@@ -59,7 +59,7 @@ export class UserData extends Schema({
     };
   }
 }
-
+let initialCommitment: Field;
 export class MVSContract extends SmartContract {
   @state(Field) root = State<Field>();
 
@@ -71,8 +71,9 @@ export class MVSContract extends SmartContract {
     });
   }
 
-  @method initStateRoot(stateRoot: Field) {
-    this.root.set(stateRoot);
+  @method init() {
+    super.init();
+    this.root.set(initialCommitment);
   }
 
   @method addNewUser(userData: Field, userWitness: MVSMerkleWitness) {
