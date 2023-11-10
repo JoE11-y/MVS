@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "main": "build/src/contracts/index.js",
-  "types": "build/src/contracts/index.d.ts",
+  "main": "build/contracts/src/index.js",
+  "types": "build/contracts/src/index.d.ts",
   "scripts": {
     "build": "tsc",
     "buildw": "tsc --watch",

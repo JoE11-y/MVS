@@ -1,5 +1,4 @@
 import {
-  PublicKey,
   Field,
   SmartContract,
   State,
@@ -8,6 +7,8 @@ import {
   Permissions,
   method,
   MerkleWitness,
+  CircuitString,
+  PublicKey,
 } from 'o1js';
 import { Schema } from 'zkdb';
 
@@ -17,18 +18,26 @@ const merkleHeight = 20;
 // Extend Merkle witness at the same height as the Merkle Tree
 export class MVSMerkleWitness extends MerkleWitness(merkleHeight) {}
 
-export interface UserSession {
-  user?: {
-    name?: string | null;
-    email?: string | null;
-    image?: string | null;
-  };
-  expires: string;
+export class UserSession extends Schema({
+  name: CircuitString,
+  email: CircuitString,
+  image: CircuitString,
+}) {
+  static deserialize(data: Uint8Array): UserSession {
+    return new UserSession(UserSession.decode(data));
+  }
+  json(): { name: string; email: string; image: string } {
+    return {
+      name: this.name.toString(),
+      email: this.email.toString(),
+      image: this.image.toString(),
+    };
+  }
 }
 
 export class UserData extends Schema({
   userAddress: PublicKey,
-  session: Object as unknown as UserSession,
+  session: UserSession,
 }) {
   // Deserialize the document from a Uint8Array
   static deserialize(data: Uint8Array): UserData {
@@ -40,10 +49,13 @@ export class UserData extends Schema({
       userAddress: this.userAddress.toBase58(),
     };
   }
-  json(): { userAddress: string; session: UserSession } {
+  json(): {
+    userAddress: string;
+    session: object;
+  } {
     return {
       userAddress: this.userAddress.toBase58(),
-      session: this.session,
+      session: this.session.json(),
     };
   }
 }
@@ -63,7 +75,7 @@ export class MVSContract extends SmartContract {
     this.root.set(stateRoot);
   }
 
-  @method addNewUser(userData: UserData, userWitness: MVSMerkleWitness) {
+  @method addNewUser(userData: Field, userWitness: MVSMerkleWitness) {
     // Get the on-chain merkle root commitment,
     // Make sure it matches the one we have locally
     let commitment = this.root.get();
@@ -74,20 +86,20 @@ export class MVSContract extends SmartContract {
     commitment.assertEquals(emptyroot);
 
     // calculate root for new user.
-    const newCommitment = userWitness.calculateRoot(userData.hash());
+    const newCommitment = userWitness.calculateRoot(userData);
 
     // update root
     this.root.set(newCommitment);
   }
 
-  @method verifyUser(userData: UserData, userWitness: MVSMerkleWitness) {
+  @method verifyUser(userData: Field, userWitness: MVSMerkleWitness) {
     // Get the on-chain merkle root commitment,
     // Make sure it matches the one we have locally
     let commitment = this.root.get();
     this.root.assertEquals(commitment);
 
     // check the user exists already within the committed Merkle tree
-    const userCommitment = userWitness.calculateRoot(userData.hash());
+    const userCommitment = userWitness.calculateRoot(userData);
 
     commitment.assertEquals(userCommitment);
   }
