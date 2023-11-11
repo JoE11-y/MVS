@@ -3,14 +3,14 @@ import {
   SmartContract,
   State,
   state,
-  DeployArgs,
-  Permissions,
   method,
   MerkleWitness,
   CircuitString,
   PublicKey,
 } from 'o1js';
-import { Schema } from 'zkdb';
+
+// Added a new schema serializer to fix issue with current zkdb serializer. PR already made
+import { Schema } from './serializer';
 
 // Height of the Merkle Tree
 const merkleHeight = 20;
@@ -59,17 +59,9 @@ export class UserData extends Schema({
     };
   }
 }
-let initialCommitment: Field;
+let initialCommitment: Field = Field(0);
 export class MVSContract extends SmartContract {
   @state(Field) root = State<Field>();
-
-  deploy(args: DeployArgs) {
-    super.deploy(args);
-    this.account.permissions.set({
-      ...Permissions.default(),
-      editState: Permissions.proofOrSignature(),
-    });
-  }
 
   @method init() {
     super.init();
