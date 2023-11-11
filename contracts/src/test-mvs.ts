@@ -2,7 +2,6 @@ import {
   Mina,
   PrivateKey,
   AccountUpdate,
-  Field,
   PublicKey,
   CircuitString,
 } from 'o1js';
@@ -17,9 +16,7 @@ import {
 // Height of the Merkle Tree
 const merkleHeight = 20;
 // Enable this to generate proofs
-const doProofs = true;
-// Merkle Tree root commitment at the time of contract initialization
-let initialCommitment: Field;
+const doProofs = false;
 
 (async () => {
   let Local = Mina.LocalBlockchain({ proofsEnabled: doProofs });
@@ -43,11 +40,12 @@ let initialCommitment: Field;
     },
   });
 
-  initialCommitment = await zkdb.getMerkleRoot();
+  // Merkle Tree root commitment at the time of contract initialization
+  const initialCommitment = await zkdb.getMerkleRoot();
   console.log('Initial root:', initialCommitment.toString());
 
   let mvsContract = new MVSContract(zkappAddress);
-  console.log('Deploying Piglet Bank..');
+  console.log('Deploying MVS service..');
   if (doProofs) {
     const { verificationKey } = await MVSContract.compile();
     console.log('Verication KEY: ', verificationKey.hash.toString());
@@ -58,6 +56,7 @@ let initialCommitment: Field;
       amount: initialBalance,
     });
     mvsContract.deploy();
+    mvsContract.setZkdbCommitment(initialCommitment);
   });
   await tx.prove();
   await tx.sign([feePayerKey, zkappKey]).send();
@@ -80,46 +79,17 @@ let initialCommitment: Field;
           }),
         })
       );
+      console.log('test add user transactions');
+      await addUser(accountPubKeyList[i]);
       console.log(`User ${accountPubKeyList[i]} created`);
     } else {
-      const account = await findRecord.load(UserData);
-      console.log(
-        `Load account ${accountPubKeyList[i]}, with session: ${
-          account.json().session
-        }`
-      );
+      await checkUser(accountPubKeyList[i]);
     }
   }
-
-  console.log('test add transactions');
-  await addUser(accountPubKeyList[0]);
-  await addUser(accountPubKeyList[1]);
 
   console.log('test verify transactions');
   await checkUser(accountPubKeyList[0]);
   await checkUser(accountPubKeyList[1]);
-
-  async function addUser(userAddress: string) {
-    console.log(`Adding ${userAddress} to MVS contract`);
-
-    // check for account from db
-    const findRecord = zkdb.findOne('userAddress', userAddress);
-
-    if (findRecord.isEmpty()) {
-      throw new Error('User does not exist on DB');
-    }
-    // load account instance
-    const accData = await findRecord.load(UserData);
-    const accWitness = new MVSMerkleWitness(await findRecord.witness());
-
-    // Perform the transaction
-    let tx = await Mina.transaction(feePayer, () => {
-      mvsContract.addNewUser(accData.hash(), accWitness);
-    });
-
-    await tx.prove();
-    await tx.sign([feePayerKey, zkappKey]).send();
-  }
 
   async function checkUser(userAddress: string) {
     console.log(`Check for user ${userAddress} in MVS contract`);
@@ -137,6 +107,28 @@ let initialCommitment: Field;
     // Perform the transaction
     let tx = await Mina.transaction(feePayer, () => {
       mvsContract.verifyUser(accData.hash(), accWitness);
+    });
+
+    await tx.prove();
+    await tx.sign([feePayerKey, zkappKey]).send();
+  }
+
+  async function addUser(userAddress: string) {
+    console.log(`Adding ${userAddress} to MVS contract`);
+
+    // check for account from db
+    const findRecord = zkdb.findOne('userAddress', userAddress);
+
+    if (findRecord.isEmpty()) {
+      throw new Error('User does not exist on DB');
+    }
+    // load account instance
+    const accData = await findRecord.load(UserData);
+    const accWitness = new MVSMerkleWitness(await findRecord.witness());
+
+    // Perform the transaction
+    let tx = await Mina.transaction(feePayer, () => {
+      mvsContract.addNewUser(accData.hash(), accWitness);
     });
 
     await tx.prove();

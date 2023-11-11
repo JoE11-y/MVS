@@ -10,7 +10,7 @@ import {
 } from 'o1js';
 
 // Added a new schema serializer to fix issue with current zkdb serializer. PR already made
-import { Schema } from './serializer';
+import { Schema } from './serializer/schema.js';
 
 // Height of the Merkle Tree
 const merkleHeight = 20;
@@ -59,12 +59,14 @@ export class UserData extends Schema({
     };
   }
 }
-let initialCommitment: Field = Field(0);
 export class MVSContract extends SmartContract {
   @state(Field) root = State<Field>();
 
   @method init() {
     super.init();
+  }
+
+  @method setZkdbCommitment(initialCommitment: Field) {
     this.root.set(initialCommitment);
   }
 
