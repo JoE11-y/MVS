@@ -9,7 +9,6 @@
 import 'dotenv/config';
 import { deployContract } from './deploy-helper.js';
 import { getAccountsForTesting, getArgvs } from './test-helper.js';
-
 let [netw, proofsEnabled, contractName] = getArgvs();
 
 const { deployerAccount, deployerKey } = await getAccountsForTesting(

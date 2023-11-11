@@ -7,6 +7,18 @@ import {
   VerificationKey,
 } from 'o1js';
 import { MVSContract } from '../mvsV1.js';
+import { ZKDatabaseStorage } from 'zkdb';
+
+async function connectZkDB() {
+  let merkleHeight = 20;
+  return await ZKDatabaseStorage.getInstance('zkdb-mvs', {
+    storageEngine: 'local',
+    merkleHeight,
+    storageEngineCfg: {
+      location: './data',
+    },
+  });
+}
 
 const CONTRACTS: any = {
   MVSv1: MVSContract,
@@ -48,6 +60,9 @@ export async function deployContract(
 
   await fetchAccount({ publicKey: deployerAccount });
 
+  const zkdbConn = await connectZkDB();
+  const zkdbRoot = await zkdbConn.getMerkleRoot();
+
   // deploy it
   let txn = await Mina.transaction(
     { sender: deployerAccount, fee: DEPLOY_TX_FEE },
@@ -60,6 +75,7 @@ export async function deployContract(
       });
       // NOTE: this calls `init()` if this is the first deploy
       zkApp.deploy();
+      zkApp.setZkdbCommitment(zkdbRoot);
     }
   );
   await txn.prove();
