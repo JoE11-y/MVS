@@ -3,15 +3,12 @@ import { MVSMerkleWitness, UserData, UserSession } from "contracts";
 import { ZKDatabaseStorage } from "zkdb";
 import {
   CircuitString,
-  Encoding,
-  PrivateKey,
   PublicKey,
-  Signature,
 } from "o1js";
 
 async function startZkDB() {
   let merkleHeight = 20;
-  const zkDB = await ZKDatabaseStorage.getInstance("MVSv1", {
+  const zkDB = await ZKDatabaseStorage.getInstance("zkdb-mvs", {
     storageEngine: "local",
     merkleHeight,
     storageEngineCfg: {
@@ -19,6 +16,12 @@ async function startZkDB() {
     },
   });
   return zkDB;
+}
+
+async function getDatabaseRoot() {
+  const zkDB = await startZkDB();
+  const zkDBroot = await zkDB.getMerkleRoot();
+  return zkDBroot;
 }
 
 async function findUser(userPubKey: string) {
@@ -56,7 +59,19 @@ async function addUser(userPubKey: string, session: any) {
   return res;
 }
 
-export async function getHandler(ctx: ParameterizedContext) {
+export async function getDBRootHandler(ctx: ParameterizedContext) {
+  try {
+    let res = await getDatabaseRoot();
+    if (!res) {
+      ctx.throw(400, "Ran into issues starting db server");
+    }
+    ctx.body = res;
+  } catch (e) {
+    ctx.throw(e as Error);
+  }
+}
+
+export async function getUserHandler(ctx: ParameterizedContext) {
   try {
     let { userPubKey } = ctx.params;
     let res = await findUser(userPubKey);
@@ -69,7 +84,7 @@ export async function getHandler(ctx: ParameterizedContext) {
   }
 }
 
-export async function postHandler(ctx: ParameterizedContext) {
+export async function addUserHandler(ctx: ParameterizedContext) {
   try {
     let { userPubKey } = ctx.params;
     let session = ctx.request.body;
