@@ -7,6 +7,7 @@ import {
   MerkleWitness,
   CircuitString,
   PublicKey,
+  Bool,
 } from 'o1js';
 
 // Added a new schema serializer to fix issue with current zkdb serializer. PR already made
@@ -61,13 +62,18 @@ export class UserData extends Schema({
 }
 export class MVSContract extends SmartContract {
   @state(Field) root = State<Field>();
+  @state(Bool) initiated = State<Bool>();
 
   @method init() {
     super.init();
   }
 
   @method setZkdbCommitment(initialCommitment: Field) {
+    // check if contract has been locked or fail
+    this.initiated.assertEquals(Bool(false));
     this.root.set(initialCommitment);
+    // lock the contract
+    this.initiated.set(Bool(true));
   }
 
   @method addNewUser(userData: Field, userWitness: MVSMerkleWitness) {

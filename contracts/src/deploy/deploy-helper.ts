@@ -1,21 +1,21 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Mina,
   PrivateKey,
   PublicKey,
   AccountUpdate,
   fetchAccount,
-  VerificationKey
+  VerificationKey,
 } from 'o1js';
 import { MVSContract } from '../mvsV1.js';
 import { makeRequest } from './test-helper.js';
 import XMLHttpRequestTs from 'xmlhttprequest-ts';
 
-const SERVER_ENDPOINT = "http://localhost:1234/zkdb/";
+const SERVER_ENDPOINT = 'http://localhost:1234/zkdb/';
 
 const NodeXMLHttpRequest =
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   XMLHttpRequestTs.XMLHttpRequest as any as typeof XMLHttpRequest;
-
 
 const CONTRACTS: any = {
   MVSv1: MVSContract,
@@ -129,6 +129,7 @@ async function loopUntilAccountExists({
       await new Promise((resolve) => setTimeout(resolve, 5000));
     } else {
       // TODO add optional check that verification key is correct once this is available in SnarkyJS
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       return response.account!;
     }
   }
