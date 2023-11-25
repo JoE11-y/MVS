@@ -1,10 +1,7 @@
 import {
-  Field,
   Mina,
   PrivateKey,
-  PublicKey,
-  AccountUpdate,
-  fetchAccount,
+  PublicKey
 } from 'o1js';
 
 export function getArgvs(): [string, boolean, string] {
@@ -82,4 +79,42 @@ export function checkTransaction(pendingTx: any) {
     `Transaction: https://berkeley.minaexplorer.com/transaction/${pendingTx.hash()}` +
       `\nWaiting for transaction to be included...`
   );
+}
+
+// function to handle making http requests
+export function makeRequest(
+  method: string,
+  url: string,
+  data: string | null = null,
+  UserXMLHttpRequest: typeof XMLHttpRequest | null = null
+): Promise<string> {
+  return new Promise(function (resolve, reject) {
+    let xhr: XMLHttpRequest;
+    if (UserXMLHttpRequest != null) {
+      xhr = new UserXMLHttpRequest();
+    } else {
+      xhr = new XMLHttpRequest();
+    }
+    xhr.open(method, url);
+    xhr.onload = function () {
+      if (this.status >= 200 && this.status < 300) {
+        resolve(xhr.responseText);
+      } else {
+        reject({
+          status: this.status,
+          statusText: xhr.responseText,
+        });
+      }
+    };
+    xhr.onerror = function () {
+      reject({
+        status: this.status,
+        statusText: xhr.responseText,
+      });
+    };
+    if (data != null) {
+      xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+    }
+    xhr.send(data);
+  });
 }

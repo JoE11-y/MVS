@@ -13,10 +13,12 @@
     "ui:ts-watch": "yarn --cwd ui tsc-watch",
     "contract:build": "npm run build -w contracts",
     "contract:buildw": "npm run buildw -w contracts",
+    "contract:deploy": "npm run deploy -w contracts",
     "contract:coverage": "npm run coverage -w contracts",
     "contract:test": "npm run test -w contracts",
     "contract:testw": "npm run testw -w contracts",
     "contract:lint": "npm run lint -w contracts",
+    "server:build": "npm run contract:build && npm run build -w dbserver",
     "server:dev": "npm run contract:build && npm run dev -w dbserver",
     "server:start": "npm run contract:build && npm run start -w dbserver",
     "server:stop": "npm run stop -w dbservers"
@@ -39,12 +41,13 @@
     "next": "13.5.5",
     "next-auth": "^4.24.3",
     "next-transpile-modules": "10.0.1",
-    "o1js": "^0.13.1",
+    "o1js": "^0.12.1",
     "postcss": "8.4.31",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "tailwindcss": "3.3.3",
     "typescript": "5.2.2",
+    "xmlhttprequest-ts": "^1.0.1",
     "zkdb": "^1.1.1"
   },
   "devDependencies": {

@@ -4,21 +4,18 @@ import {
   PublicKey,
   AccountUpdate,
   fetchAccount,
-  VerificationKey,
+  VerificationKey
 } from 'o1js';
 import { MVSContract } from '../mvsV1.js';
-import { ZKDatabaseStorage } from 'zkdb';
+import { makeRequest } from './test-helper.js';
+import XMLHttpRequestTs from 'xmlhttprequest-ts';
 
-async function connectZkDB() {
-  let merkleHeight = 20;
-  return await ZKDatabaseStorage.getInstance('zkdb-mvs', {
-    storageEngine: 'local',
-    merkleHeight,
-    storageEngineCfg: {
-      location: './data',
-    },
-  });
-}
+const SERVER_ENDPOINT = "http://localhost:1234/zkdb/";
+
+const NodeXMLHttpRequest =
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  XMLHttpRequestTs.XMLHttpRequest as any as typeof XMLHttpRequest;
+
 
 const CONTRACTS: any = {
   MVSv1: MVSContract,
@@ -60,8 +57,15 @@ export async function deployContract(
 
   await fetchAccount({ publicKey: deployerAccount });
 
-  const zkdbConn = await connectZkDB();
-  const zkdbRoot = await zkdbConn.getMerkleRoot();
+  // fetch database root from storage
+  const response = await makeRequest(
+    'GET',
+    SERVER_ENDPOINT + 'getDBRoot',
+    null,
+    NodeXMLHttpRequest
+  );
+
+  const zkdbRoot = JSON.parse(response);
 
   // deploy it
   let txn = await Mina.transaction(
