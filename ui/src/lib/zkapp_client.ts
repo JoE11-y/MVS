@@ -16,11 +16,11 @@ interface Data {
 
 const BERKELEY_ENDPOINT = "https://proxy.berkeley.minaexplorer.com/graphql";
 
-const ZKDB_ENDPOINT = "http://localhost:1234";
+const ZKDB_ENDPOINT = "http://localhost:1234/zkdb";
 
 async function createRecord(data: Data, userPubKey: string) {
   const responseData = await axios
-    .post(`${ZKDB_ENDPOINT}/zkdb/${userPubKey}`, data)
+    .post(`${ZKDB_ENDPOINT}/addUser/${userPubKey}`, data)
     .then((response) => {
       return response.data;
     });
@@ -30,7 +30,7 @@ async function createRecord(data: Data, userPubKey: string) {
 
 async function retrieveRecord(userPubKey: string) {
   const data = await axios
-    .get(`${ZKDB_ENDPOINT}/zkdb/${userPubKey}`)
+    .get(`${ZKDB_ENDPOINT}/getUser/${userPubKey}`)
     .then((response) => {
       return response.data;
     });
