@@ -21,7 +21,8 @@
     "server:build": "npm run contract:build && npm run build -w dbserver",
     "server:dev": "npm run contract:build && npm run dev -w dbserver",
     "server:start": "npm run contract:build && npm run start -w dbserver",
-    "server:stop": "npm run stop -w dbservers"
+    "server:stop": "npm run stop -w dbservers",
+    "heroku-postbuild": "npm run server:build"
   },
   "dependencies": {
     "@koa/bodyparser": "^5.0.0",
@@ -86,5 +87,6 @@
     "mina-zk-app",
     "mina-dapp",
     "zkapp"
-  ]
+  ],
+  "heroku-run-build-script": true
 }

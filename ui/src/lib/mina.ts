@@ -12,23 +12,29 @@ const zkClient = new ZkappClient();
 
 export async function init() {
   const hasWallet = !!mina;
+  let accounts;
+  let network;
   if (hasWallet) {
     zkClient.setActiveInstanceToBerkeley();
-    let network = await requestNetwork();
+    network = await requestNetwork();
     const hasConnected =
       localStorage.getItem("WALLET_CONNECTED_BEFORE_FLAG") == "true";
 
     if (hasConnected) {
-      let accounts = await requestAccounts();
+      accounts = await requestAccounts();
     }
   }
+
+  return { accounts: accounts[0] || "", network: network || "" };
 }
 
 export async function connect() {
   if (!mina) return;
-  await requestNetwork();
-  await requestAccounts();
+  const network = await requestNetwork();
+  const accounts = await requestAccounts();
   localStorage.setItem("WALLET_CONNECTED_BEFORE_FLAG", "true");
+
+  return { accounts: accounts[0] || "", network: network || "" };
 }
 
 async function requestNetwork() {
