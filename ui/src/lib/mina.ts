@@ -1,6 +1,8 @@
 import ZkappClient from "./zkapp_client";
+import type { Data } from "./zkapp_client";
 
-const MINA_SUB_DECIMAL: number = 1e9;
+export const MINA_SUB_DECIMAL: number = 1e9;
+const transactionFee = 0.1;
 
 const mina = (window as any)?.mina;
 
@@ -14,6 +16,8 @@ export async function init() {
   const hasWallet = !!mina;
   let accounts;
   let network;
+  let account;
+
   if (hasWallet) {
     zkClient.setActiveInstanceToBerkeley();
     network = await requestNetwork();
@@ -22,19 +26,19 @@ export async function init() {
 
     if (hasConnected) {
       accounts = await requestAccounts();
+      account = await handleAccountsChanged(accounts);
     }
   }
 
-  return { accounts: accounts[0] || "", network: network || "" };
+  return { accounts: account?.publicKey58 || "", network: network || "", walletConnected: account?.walletConnected || "" };
 }
 
 export async function connect() {
   if (!mina) return;
   const network = await requestNetwork();
   const accounts = await requestAccounts();
-  localStorage.setItem("WALLET_CONNECTED_BEFORE_FLAG", "true");
-
-  return { accounts: accounts[0] || "", network: network || "" };
+  const {walletConnected, publicKey58} = await handleAccountsChanged(accounts);
+  return { accounts: publicKey58 || "", network: network || "", walletConnected: walletConnected };
 }
 
 async function requestNetwork() {
@@ -65,20 +69,51 @@ async function handleAccountsChanged(accounts: string[]) {
 
   if (accounts && accounts.length) {
     publicKey58 = accounts[0];
-    await setupWorkerClient(publicKey58);
-    walletConnected = true;
+    const status = await checkIfAccountExists(publicKey58);
+    if(status){
+      walletConnected = true;
+      localStorage.setItem("WALLET_CONNECTED_BEFORE_FLAG", "true");
+    }else{
+      throw new Error("Account does not exist yet")
+    }
+
   } else {
-    // localStorage.setItem(WALLET_CONNECTED_BEFORE_FLAG, "false");
+    localStorage.setItem("WALLET_CONNECTED_BEFORE_FLAG", "false");
   }
+
+  return {walletConnected, publicKey58}
 }
 
-async function setupWorkerClient(publicKey58: string) {
+async function checkIfAccountExists(publicKey58: string) {
   try {
     // check if connected user account exists or not
     const res = await zkClient.fetchAccount(publicKey58);
     const accountExists = res.error == null;
-    // user.set({ accountExists });
+    return accountExists;
   } catch (e: any) {
     console.error(e);
+    return false;
   }
+}
+
+export async function addUser(publicKey: string, data: Data){
+  await zkClient
+  .setupZkappInstance(ZKAPP_CONTRACT_ADDRESS)
+  .then(() => zkClient.getAddUserTransactionJSON(publicKey, data))
+  .then(txnJSON => zkClient.sendTransaction(txnJSON, transactionFee))
+  .then(hash => console.log("add user txn hash:", hash))
+  .then(result => {
+    console.log(result);
+  })
+}
+
+export async function checkUser(publicKey: string){
+  await zkClient
+  .setupZkappInstance(ZKAPP_CONTRACT_ADDRESS)
+  .then(() => zkClient.getCheckUserTransactionJSON(publicKey))
+  .then(txnJSON => zkClient.sendTransaction(txnJSON, transactionFee))
+  .then(hash => console.log("check user txn hash:", hash))
+  .then(result => {
+    console.log(result);
+  })
 }

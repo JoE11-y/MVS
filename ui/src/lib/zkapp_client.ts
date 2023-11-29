@@ -8,7 +8,7 @@ import axios from "axios";
 
 type Transaction = Awaited<ReturnType<typeof Mina.transaction>>;
 
-interface Data {
+export interface Data {
   name: string;
   email: string;
   image: string;

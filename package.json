@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "npm run contract:build && npm run dev -w ui",
     "build": "npm run contract:build && npm run build -w ui",
-    "start": "npm run contract:build && npm run start -w ui",
+    "start": "npm run start -w ui",
     "ui:lint": "npm run lint -w ui",
     "ui:ts-watch": "yarn --cwd ui tsc-watch",
     "contract:build": "npm run build -w contracts",
@@ -20,7 +20,7 @@
     "contract:lint": "npm run lint -w contracts",
     "server:build": "npm run contract:build && npm run build -w dbserver",
     "server:dev": "npm run contract:build && npm run dev -w dbserver",
-    "server:start": "npm run contract:build && npm run start -w dbserver",
+    "server:start": "npm run start -w dbserver",
     "server:stop": "npm run stop -w dbservers",
     "heroku-postbuild": "npm run server:build"
   },
