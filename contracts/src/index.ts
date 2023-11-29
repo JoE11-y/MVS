@@ -1,3 +1,8 @@
-import { Add } from './Add.js';
+import {
+  MVSContract,
+  MVSMerkleWitness,
+  UserData,
+  UserSession,
+} from './mvsV1.js';
 
-export { Add };
+export { MVSContract, MVSMerkleWitness, UserData, UserSession };

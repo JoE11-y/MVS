@@ -1,5 +1,9 @@
 # MVS - Mina Verification Service
 
+[Architecture](https://drive.google.com/file/d/1IgLllNTEV-UxBAejl7jXQQbpsn2S2fcM/view?usp=drivesdk)
+
+![Arc](./assets/images/Mina%20Navigator.png)
+
 ## Problem Statement
 
 The emergence of web3 has brought numerous benefits to the digital world, but it has also created new challenges in user verification. In the web3 space, identifying and verifying legitimate users is becoming increasingly difficult due to the anonymous nature of blockchain transactions. Moreover, the rise of Sybil attacks, where a single user creates multiple fake identities to gain control over a network or system, poses a significant threat to the integrity and trust of web3 platforms. As a result, there is a pressing need for advanced identity verification and authentication measures to safeguard the security of web3 platforms and ensure that only legitimate users have access.
