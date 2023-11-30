@@ -4,7 +4,12 @@ import type { Data } from "./zkapp_client";
 export const MINA_SUB_DECIMAL: number = 1e9;
 const transactionFee = 0.1;
 
-const mina = (window as any)?.mina;
+let mina: any;
+
+if (typeof window !== "undefined") {
+  // Your client-side code that uses window goes here
+  mina = (window as any)?.mina;
+}
 
 // Public Address of the zkApp account
 const ZKAPP_CONTRACT_ADDRESS: string =
@@ -30,15 +35,27 @@ export async function init() {
     }
   }
 
-  return { accounts: account?.publicKey58 || "", network: network || "", walletConnected: account?.walletConnected || "" };
+  return {
+    hasWallet: hasWallet,
+    accountPubKey: account?.publicKey58 || "",
+    network: network || "",
+    walletConnected: account?.walletConnected || false,
+    accountExists: account?.accountExists || false,
+  };
 }
 
 export async function connect() {
-  if (!mina) return;
+  if (!mina) throw new Error("Mina wallet not found");
   const network = await requestNetwork();
   const accounts = await requestAccounts();
-  const {walletConnected, publicKey58} = await handleAccountsChanged(accounts);
-  return { accounts: publicKey58 || "", network: network || "", walletConnected: walletConnected };
+  const { walletConnected, publicKey58, accountExists } =
+    await handleAccountsChanged(accounts);
+  return {
+    accountPubKey: publicKey58 || "",
+    network: network || "",
+    walletConnected: walletConnected,
+    accountExists: accountExists,
+  };
 }
 
 async function requestNetwork() {
@@ -66,26 +83,25 @@ async function requestAccounts() {
 async function handleAccountsChanged(accounts: string[]) {
   let publicKey58: string = "";
   let walletConnected: boolean = false;
+  let accountExists: boolean = false;
 
   if (accounts && accounts.length) {
     publicKey58 = accounts[0];
-    const status = await checkIfAccountExists(publicKey58);
-    if(status){
+    accountExists = await checkIfAccountExists(publicKey58);
+    if (accountExists) {
       walletConnected = true;
       localStorage.setItem("WALLET_CONNECTED_BEFORE_FLAG", "true");
-    }else{
-      throw new Error("Account does not exist yet")
     }
-
   } else {
     localStorage.setItem("WALLET_CONNECTED_BEFORE_FLAG", "false");
   }
 
-  return {walletConnected, publicKey58}
+  return { walletConnected, publicKey58, accountExists };
 }
 
 async function checkIfAccountExists(publicKey58: string) {
   try {
+    zkClient.setActiveInstanceToBerkeley();
     // check if connected user account exists or not
     const res = await zkClient.fetchAccount(publicKey58);
     const accountExists = res.error == null;
@@ -96,24 +112,26 @@ async function checkIfAccountExists(publicKey58: string) {
   }
 }
 
-export async function addUser(publicKey: string, data: Data){
+export async function addUser(publicKey: string, data: Data) {
+  zkClient.setActiveInstanceToBerkeley();
   await zkClient
-  .setupZkappInstance(ZKAPP_CONTRACT_ADDRESS)
-  .then(() => zkClient.getAddUserTransactionJSON(publicKey, data))
-  .then(txnJSON => zkClient.sendTransaction(txnJSON, transactionFee))
-  .then(hash => console.log("add user txn hash:", hash))
-  .then(result => {
-    console.log(result);
-  })
+    .setupZkappInstance(ZKAPP_CONTRACT_ADDRESS)
+    .then(() => zkClient.getAddUserTransactionJSON(publicKey, data))
+    .then((txnJSON) => zkClient.sendTransaction(txnJSON, transactionFee))
+    .then((hash) => console.log("add user txn hash:", hash))
+    .then((result) => {
+      console.log(result);
+    });
 }
 
-export async function checkUser(publicKey: string){
+export async function checkUser(publicKey: string) {
+  zkClient.setActiveInstanceToBerkeley();
   await zkClient
-  .setupZkappInstance(ZKAPP_CONTRACT_ADDRESS)
-  .then(() => zkClient.getCheckUserTransactionJSON(publicKey))
-  .then(txnJSON => zkClient.sendTransaction(txnJSON, transactionFee))
-  .then(hash => console.log("check user txn hash:", hash))
-  .then(result => {
-    console.log(result);
-  })
+    .setupZkappInstance(ZKAPP_CONTRACT_ADDRESS)
+    .then(() => zkClient.getCheckUserTransactionJSON(publicKey))
+    .then((txnJSON) => zkClient.sendTransaction(txnJSON, transactionFee))
+    .then((hash) => console.log("check user txn hash:", hash))
+    .then((result) => {
+      console.log(result);
+    });
 }
