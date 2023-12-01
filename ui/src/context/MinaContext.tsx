@@ -7,7 +7,6 @@ interface State {
     accountExists: boolean,
     publicKey58: string,
     network: string,
-    client: ZkappClient | null
 }
 
 const INITIAL_STATE: State = {
@@ -16,7 +15,6 @@ const INITIAL_STATE: State = {
     accountExists: false,
     publicKey58: '',
     network: '',
-    client: null
 }
 
 const UPDATE_STATE = "UPDATE_STATE"
@@ -29,7 +27,6 @@ interface UpdateState {
         accountExists?: boolean;
         publicKey58?: string;
         network?: string;
-        client?: ZkappClient;
     }
 }
 
@@ -39,7 +36,6 @@ interface UpdateArgs {
     accountExists?: boolean;
     publicKey58?: string;
     network?: string;
-    client?: ZkappClient;
 }
 
 type Action = UpdateState;
@@ -47,7 +43,7 @@ type Action = UpdateState;
 function reducer(state: State, action: Action) {
     switch (action.type) {
         case UPDATE_STATE: {
-            const { hasWallet, walletConnected, accountExists, publicKey58, network, client } = action.data;
+            const { hasWallet, walletConnected, accountExists, publicKey58, network } = action.data;
             return {
                 ...state,
                 hasWallet: hasWallet ? hasWallet : state.hasWallet,
@@ -55,7 +51,6 @@ function reducer(state: State, action: Action) {
                 accountExists: accountExists ? accountExists : state.accountExists,
                 publicKey58: publicKey58 ? publicKey58 : state.publicKey58,
                 network: network ? network : state.network,
-                client: client ? client : state.network,
             } as State;
         }
         default:

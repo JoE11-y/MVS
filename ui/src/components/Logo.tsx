@@ -1,5 +1,5 @@
 import Image from "next/image";
-import styles from "../styles/Home.module.css";
+import styles from "@/styles/Home.module.css";
 import heroMinaLogo from "../../public/assets/hero-mina-logo.svg";
 
 export default function Logo() {

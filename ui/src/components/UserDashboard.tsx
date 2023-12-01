@@ -1,10 +1,16 @@
 import { signOut, useSession } from "next-auth/react";
-import styles from "../styles/Demo.module.css";
-import style from "../styles/Home.module.css";
+import styles from "@/styles/Demo.module.css";
+import style from "@/styles/Home.module.css";
 import Image from "next/image";
+import { Data } from "@/lib/zkapp_client";
+import { useMinaContext } from "@/context/MinaContext";
+
+const { addUser } = await import("@/lib/mina");
 
 export default function UserDashboard() {
     let { data: session } = useSession();
+    const { state } = useMinaContext();
+
     if (!session) {
         session = {
             user: {
@@ -15,6 +21,17 @@ export default function UserDashboard() {
             expires: "1000"
         }
     }
+
+    const trigger = async () => {
+        try {
+            if (state.walletConnected) {
+                await addUser(state.publicKey58, session?.user as Data)
+            }
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
     return (
         <div className={styles.flex}>
             {session?.user && (
@@ -42,7 +59,7 @@ export default function UserDashboard() {
                         <br />
                         <strong>{session.user.email}</strong>
                     </div>
-                    <button className={style.button}>
+                    <button className={style.button} onClick={() => trigger()}>
                         Generate Proof
                     </button>
                 </>

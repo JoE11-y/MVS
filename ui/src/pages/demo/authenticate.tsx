@@ -1,5 +1,4 @@
 import type { InferGetServerSidePropsType } from 'next'
-import { useEffect } from "react";
 import styles from "../../styles/Demo.module.css";
 import style from "../../styles/Home.module.css";
 import { getProviders, signIn } from "next-auth/react";

@@ -6,6 +6,7 @@ import {
   AccountUpdate,
   fetchAccount,
   VerificationKey,
+  Field,
 } from 'o1js';
 import { MVSContract } from '../mvsV1.js';
 import { makeRequest } from './test-helper.js';
@@ -57,15 +58,7 @@ export async function deployContract(
 
   await fetchAccount({ publicKey: deployerAccount });
 
-  // fetch database root from storage
-  const response = await makeRequest(
-    'GET',
-    SERVER_ENDPOINT + 'getDBRoot',
-    null,
-    NodeXMLHttpRequest
-  );
-
-  const zkdbRoot = JSON.parse(response);
+  const zkdbRoot = await getZKDBRoot();
 
   // deploy it
   let txn = await Mina.transaction(
@@ -79,7 +72,7 @@ export async function deployContract(
       });
       // NOTE: this calls `init()` if this is the first deploy
       zkApp.deploy();
-      zkApp.setZkdbCommitment(zkdbRoot);
+      zkApp.setZkdbCommitment(Field(zkdbRoot));
     }
   );
   await txn.prove();
@@ -103,6 +96,18 @@ export async function deployContract(
   console.log('zkApp is available now !');
 
   return zkApp;
+}
+
+async function getZKDBRoot() {
+  // fetch database root from storage
+  const response = await makeRequest(
+    'GET',
+    SERVER_ENDPOINT + 'getDBRoot',
+    null,
+    NodeXMLHttpRequest
+  );
+
+  return JSON.parse(response);
 }
 
 async function loopUntilAccountExists({

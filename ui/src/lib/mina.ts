@@ -13,7 +13,7 @@ if (typeof window !== "undefined") {
 
 // Public Address of the zkApp account
 const ZKAPP_CONTRACT_ADDRESS: string =
-  "B62qo7TsbVEKU2q7md2upZuMwjEizuYcMy5t4FPdmB3YkonZbF5dJSu";
+  "B62qqKuDzH2mDtDqXtxSmfeepaoJMNDh3WZuAG6Dp3ov9NmsFL9RZpJ";
 
 const zkClient = new ZkappClient();
 
